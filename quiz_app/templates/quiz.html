@@ -24,7 +24,11 @@
     {% endif %}
     {% else %}
     <p>Quiz completed!</p>
-    <!-- Display the completion message or redirect to another view -->
+        <h1>Score: {{ player.score }}</h1>
+        <form method="post" action="{% url 'leaderboard_view' %}">
+            {% csrf_token %}
+            <button type="submit">Next</button>
+        </form>
     {% endif %}
 </body>
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from quiz_app.models import Question, Answer
+from quiz_app.models import Player, Question, Answer
 from random import sample
 
 
@@ -14,8 +14,11 @@ def index(request):
 
         random_question_ids = [str(obj_id) for obj_id in random_question_ids]
 
+        player = Player(username=username)
+        player.save()
+
         request.session['question_number'] = 1
-        request.session['username'] = username
+        request.session['player_id'] = str(player.id)
         request.session['random_questions'] = random_question_ids
 
         return redirect('questions_view')
@@ -36,21 +39,24 @@ def questions_view(request):
 
             submitted_answer = request.POST.get('answer', '')
 
-            answer = get_correct_answer(question)
+            answer = question.get_desc_correct_answer()
 
             if submitted_answer.lower() == answer.lower():
                 feedback = "Correct!"
+                add_score(request)
             else:
                 feedback = "Incorrect!"
-                question_number += 1
+            question_number += 1
 
-                request.session['question_number'] = question_number
-                return render(request, 'quiz.html', {
-                    'question': question,
-                    'question_number': question_number-1,
-                    'feedback': feedback})
+            request.session['question_number'] = question_number
+            return render(request, 'quiz.html', {
+                'question': question,
+                'question_number': question_number-1,
+                'feedback': feedback})
         else:
-            return render(request, 'example.html')
+            player = get_score(request)
+            return render(request, 'quiz.html', {
+                'player': player})
 
     else:
         question_number = request.session.get('question_number', 1)
@@ -100,7 +106,18 @@ def get_questions(request):
     return render(request, 'questions.html', {'questions': questions})
 
 
-def get_correct_answer(question):
-    for _, description, is_correct in question.answers:
-        if is_correct:
-            return description
+def add_score(request):
+    player_id = request.session.get('player_id', '')
+    player = Player.objects.get(id=player_id)
+    player.add_score()
+
+
+def get_score(request):
+    player_id = request.session.get('player_id', '')
+    player = Player.objects.get(id=player_id)
+    return player
+
+
+def leaderboard_view(request):
+    players = Player.objects.order_by('-score')
+    return render(request, 'leaderboard.html', {'players': players})

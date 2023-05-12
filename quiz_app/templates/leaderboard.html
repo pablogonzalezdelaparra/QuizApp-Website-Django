@@ -7,6 +7,12 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Good</h1>
+    <h1>Leaderboard</h1>
+    <ul>
+        {% for player in players %}
+            <li>{{ player.username }} </li>
+            <p>- {{ player.score }}</p>
+        {% endfor %}
+    </ul>
 </body>
 </html>
