@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Quiz</title>
 </head>
+
 <body>
     <h1>Quiz</h1>
     {% if question %}
-        <h2>Question {{ question_number }}:</h2>
-        <p>{{ question.question_text }}</p>
-        <form method="post" action="{% url 'question_view' %}">
-            {% csrf_token %}
-            <label for="answer">Answer:</label>
-            <input type="text" id="answer" name="answer">
-            <button type="submit">Submit</button>
-        </form>
-        {% if feedback %}
-            <p>{{ feedback }}</p>
-        {% endif %}
+    <h2>Question {{ question_number }}:</h2>
+    <p>{{ question.description }}</p>
+    {% for answer in question.answers %}
+    <p> {{ answer.description }} </p>
+    {% endfor %}
+    <form method="post" action="{% url 'questions_view' %}">
+        {% csrf_token %}
+        <label for="answer">Answer:</label>
+        <input type="text" id="answer" name="answer">
+        <button type="submit">Submit</button>
+    </form>
+    {% if feedback %}
+    <p>{{ feedback }}</p>
+    {% endif %}
     {% else %}
-        <p>Quiz completed!</p>
-        <!-- Display the completion message or redirect to another view -->
+    <p>Quiz completed!</p>
+    <!-- Display the completion message or redirect to another view -->
     {% endif %}
 </body>
+
 </html>

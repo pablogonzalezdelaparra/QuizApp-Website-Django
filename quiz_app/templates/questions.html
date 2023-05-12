@@ -9,8 +9,11 @@
 <body>
     <h1>My Models</h1>
     <ul>
-        {% for model in models %}
-            <li>{{ model.question_text }} - {{ model.answer }}</li>
+        {% for question in questions %}
+            <li>{{ question.description }} </li>
+                {% for answer in question.answers %}
+                <p>- {{ answer.description }} </p>
+            {% endfor %}
         {% endfor %}
     </ul>
 </body>

@@ -1,10 +1,10 @@
 from django.urls import path
-from quiz_app.views import question_view, create_question, \
-    select_number_questions
+from quiz_app.views import \
+    create_question, get_questions, index, questions_view
 
 urlpatterns = [
-    # path('myview/', my_view, name='my-view'),
-    path('create/', create_question, name='create_question'),
-    path('quiz/', question_view, name='question_view'),
-    path('select/', select_number_questions, name='select_number_questions'),
+    path('', index, name='index'),
+    path('create_question/', create_question, name='create_question'),
+    path('get_questions/', get_questions, name='get_questions'),
+    path('quiz/', questions_view, name='questions_view'),
 ]

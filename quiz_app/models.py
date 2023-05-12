@@ -1,13 +1,16 @@
 from mongoengine import Document, fields
 
 
-'''
-class MyModel(Document):
-    name = fields.StringField(max_length=50)
-    description = fields.StringField(max_length=200)
-'''
-
-
 class Question(Document):
-    question_text = fields.StringField(max_length=200)
-    answer = fields.StringField(max_length=100)
+    description = fields.StringField(max_length=200)
+    answers = fields.ListField(fields.ReferenceField('Answer'))
+
+    def get_id_correct_answer(self):
+        for answer in self.answers:
+            if answer.is_correct:
+                return answer.id
+
+
+class Answer(Document):
+    description = fields.StringField(max_length=200)
+    is_correct = fields.BooleanField(default=False)
