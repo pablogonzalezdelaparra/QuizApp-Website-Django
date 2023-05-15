@@ -1,4 +1,5 @@
 from mongoengine import Document, fields
+from datetime import datetime
 
 
 class Question(Document):
@@ -17,6 +18,7 @@ class Answer(Document):
 
 
 class Player(Document):
+    date = fields.DateTimeField(default=datetime.now)
     username = fields.StringField(max_length=200)
     score = fields.IntField(default=0)
 

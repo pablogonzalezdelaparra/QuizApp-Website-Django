@@ -3,32 +3,81 @@
 
 <head>
     <title>Quiz</title>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function showFeedback() {
+            var modal = document.getElementById("feedbackModal");
+            modal.style.display = "block";
+        }
+
+        function closeFeedback() {
+            var modal = document.getElementById("feedbackModal");
+            modal.style.display = "none";
+        }
+    </script>
 </head>
 
 <body>
     <h1>Quiz</h1>
+    {% if feedback %}
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeFeedback()">&times;</span>
+            <p>{{ feedback }}</p>
+        </div>
+    </div>
+    <script>
+        showFeedback();
+    </script>
+    {% endif %}
     {% if question %}
     <h2>Question {{ question_number }}:</h2>
     <p>{{ question.description }}</p>
-    {% for answer in question.answers %}
-    <p> {{ answer.description }} </p>
-    {% endfor %}
     <form method="post" action="{% url 'questions_view' %}">
         {% csrf_token %}
-        <label for="answer">Answer:</label>
-        <input type="text" id="answer" name="answer">
+        {% for answer in question.answers %}
+        <input type="radio" id="{{ answer.id }}" name="answer" value="{{ answer.id }}">
+        <label for="{{ answer.id }}">{{ answer.description }}</label><br>
+        {% endfor %}
         <button type="submit">Submit</button>
     </form>
-    {% if feedback %}
-    <p>{{ feedback }}</p>
-    {% endif %}
+
     {% else %}
     <p>Quiz completed!</p>
-        <h1>Score: {{ player.score }}</h1>
-        <form method="post" action="{% url 'leaderboard_view' %}">
-            {% csrf_token %}
-            <button type="submit">Next</button>
-        </form>
+    <h1>Score: {{ player.score }}</h1>
+    <form method="post" action="{% url 'leaderboard_view' %}">
+        {% csrf_token %}
+        <button type="submit">Next</button>
+    </form>
     {% endif %}
 </body>
 
