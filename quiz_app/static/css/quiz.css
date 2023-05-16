@@ -1,3 +1,16 @@
+* {
+  box-sizing: border-box;
+  color: #1a1f36;
+  word-wrap: break-word;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica Neue, Ubuntu, sans-serif;
+}
+
+:root {
+  --brand: rgb(84, 105, 212);
+  accent-color: var(--brand);
+}
+
 .modal {
   display: none;
   position: fixed;
