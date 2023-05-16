@@ -98,6 +98,7 @@
       }
 
       .range-slider > span {
+        display: inline-block;
         margin-left: 4px;
         font-size: 16px;
       }
@@ -108,6 +109,7 @@
       .btn-tarjeta-inicio > button {
         background-color: rgb(84, 105, 212);
         color: #fff;
+        font-size: 16px;
         font-weight: 600;
         cursor: pointer;
         width: 100%;
@@ -131,8 +133,8 @@
             on pattern designs and general software architecture concepts.
           </p>
           <p>
-            Before we begin, please specify your name and the number of
-            questions you would like to answer. These cannot be changed later.
+            To begin, please specify your name and the number of questions you
+            would like to answer.
           </p>
         </div>
         <form method="post" action="{% url 'index' %}">
@@ -152,7 +154,6 @@
             </div>
           </div>
           <!-- Igual que value -->
-          <!-- QUITAR <br> -->
           <div class="label-tarjeta-inicio">
             <label for="username">Username:</label>
             <input type="text" name="username" id="username" />
