@@ -10,39 +10,159 @@
     <style>
       * {
         box-sizing: border-box;
+        color: #1a1f36;
+        word-wrap: break-word;
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+          Helvetica Neue, Ubuntu, sans-serif;
       }
 
       :root {
-        --brand: rgba(250, 15, 117);
+        --brand: rgb(84, 105, 212);
         accent-color: var(--brand);
       }
 
-      body {
-        font-family: "Open Sans", sans-serif;
+      .index-root {
+        background: #fff;
+        display: flex;
+        width: 100%;
+        min-height: 100vh;
+        overflow: hidden;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .tarjeta-inicio {
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 48px;
+        min-width: 400px;
+        max-width: 448px;
+        border-radius: 4px;
+        box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px,
+          rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+      }
+
+      .descripcion-quiz {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .descripcion-quiz > p {
+        color: dimgray;
+        text-align: justify;
+        text-justify: inter-word;
+      }
+
+      .titulo-tarjeta-inicio {
+        box-sizing: border-box;
+      }
+
+      .titulo-tarjeta-inicio > h1 {
+        letter-spacing: -2px;
+        color: rgb(84, 105, 212);
+      }
+
+      .label-tarjeta-inicio {
+        display: block;
+        padding-bottom: 16px;
+      }
+
+      .label-tarjeta-inicio > label {
+        font-size: 14px;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .label-tarjeta-inicio > input {
+        width: 100%;
+        font-size: 16px;
+        padding: 8px 16px;
+        min-height: 44px;
+      }
+
+      .range-slider {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .range-slider > input {
+        width: 100%;
+        font-size: 16px;
+        /* padding: 8px 16px; */
+        /* min-height: 44px; */
+      }
+
+      .range-slider > span {
+        margin-left: 4px;
+        font-size: 16px;
+      }
+
+      .btn-tarjeta-inicio {
+      }
+
+      .btn-tarjeta-inicio > button {
+        background-color: rgb(84, 105, 212);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        min-height: 44px;
+        border: unset;
+        border-radius: 4px;
+        outline-color: rgb(84 105 212 / 0.5);
       }
     </style>
     <title>Quiz App</title>
   </head>
   <body>
-    <form method="post" action="{% url 'index' %}">
-      {% csrf_token %}
-      <label for="num_questions">Number of questions:</label>
-      <input
-        type="range"
-        name="num_questions"
-        id="number_of_questions"
-        min="1"
-        max="10"
-        value="5"
-      />
-      <span id="selected_num_questions">5</span>
-      <!-- Igual que value -->
-      <br />
-      <!-- QUITAR <br> -->
-      <label for="username">Nombre de usuario:</label>
-      <input type="text" name="username" id="username" />
-      <button type="submit">Submit</button>
-    </form>
+    <div class="index-root">
+      <div class="titulo-tarjeta-inicio">
+        <h1>Pablongo Quiz</h1>
+      </div>
+      <div class="tarjeta-inicio">
+        <div class="descripcion-quiz">
+          <p>
+            Welcome to Pablongo Quiz! A quiz app that will test your knowledge
+            on pattern designs and general software architecture concepts.
+          </p>
+          <p>
+            Before we begin, please specify your name and the number of
+            questions you would like to answer. These cannot be changed later.
+          </p>
+        </div>
+        <form method="post" action="{% url 'index' %}">
+          {% csrf_token %}
+          <div class="label-tarjeta-inicio">
+            <label for="num_questions">Number of questions:</label>
+            <div class="range-slider">
+              <input
+                type="range"
+                name="num_questions"
+                id="number_of_questions"
+                min="1"
+                max="10"
+                value="5"
+              />
+              <span id="selected_num_questions">5</span>
+            </div>
+          </div>
+          <!-- Igual que value -->
+          <!-- QUITAR <br> -->
+          <div class="label-tarjeta-inicio">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" />
+          </div>
+          <div class="btn-tarjeta-inicio">
+            <button type="submit">Play</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <script>
       const rangeInput = document.getElementById("number_of_questions");
       const selectedNumQuestions = document.getElementById(
