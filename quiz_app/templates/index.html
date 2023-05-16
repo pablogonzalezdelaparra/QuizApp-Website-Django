@@ -1,29 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="./styles/index.css" />
+    <!-- <script src="scripts/index.js"></script> -->
     <title>Quiz App</title>
-</head>
-<body>
+  </head>
+  <body>
     <form method="post" action="{% url 'index' %}">
-        {% csrf_token %}
-        <label for="num_questions">Number of questions:</label>
-        <input type="range" name="num_questions" id="number_of_questions" min="1" max="10" value="5">
-        <span id="selected_num_questions">5</span> <!-- Igual que value -->
-        <br> <!-- QUITAR <br> -->
-        <label for="username">Nombre de usuario:</label>
-        <input type="text" name="username" id="username">
-        <button type="submit">Submit</button>
+      {% csrf_token %}
+      <label for="num_questions">Number of questions:</label>
+      <input
+        type="range"
+        name="num_questions"
+        id="number_of_questions"
+        min="1"
+        max="10"
+        value="5"
+      />
+      <span id="selected_num_questions">5</span>
+      <!-- Igual que value -->
+      <br />
+      <!-- QUITAR <br> -->
+      <label for="username">Nombre de usuario:</label>
+      <input type="text" name="username" id="username" />
+      <button type="submit">Submit</button>
     </form>
     <script>
-        const rangeInput = document.getElementById('number_of_questions');
-        const selectedNumQuestions = document.getElementById('selected_num_questions');
+      const rangeInput = document.getElementById("number_of_questions");
+      const selectedNumQuestions = document.getElementById(
+        "selected_num_questions"
+      );
 
-        rangeInput.addEventListener('input', function () {
-            selectedNumQuestions.textContent = this.value;
-        });
+      rangeInput.addEventListener("input", function () {
+        selectedNumQuestions.textContent = this.value;
+      });
     </script>
-</body>
+  </body>
 </html>
