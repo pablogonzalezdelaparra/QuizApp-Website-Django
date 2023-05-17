@@ -64,12 +64,14 @@
       </div>
 
       {% else %}
-      <p>Quiz completed!</p>
-      <h1>Score: {{ player.score }}</h1>
-      <form method="post" action="{% url 'leaderboard_view' %}">
-        {% csrf_token %}
-        <button type="submit">Next</button>
-      </form>
+      <div class="quiz-completed">
+        <h1>Quiz completed!</h1>
+        <p>Score: {{ player.score }}</p>
+        <form method="post" action="{% url 'leaderboard_view' %}">
+          {% csrf_token %}
+          <button type="submit">Next</button>
+        </form>
+      </div>
       {% endif %}
     </div>
   </body>

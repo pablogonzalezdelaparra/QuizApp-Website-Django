@@ -4,11 +4,32 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="./styles/leaderboard.css" />
+    {% load static %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/leaderboard.css' %}"
+    />
     <title>Leaderboard</title>
   </head>
   <body>
-    <h1>Leaderboard</h1>
+    <div class="leaderboard-container">
+      <h1 class="leaderboard-title">Leaderboard</h1>
+      <ul class="leaderboard-list">
+        {% for player in players %}
+        <li class="leaderboard-item">
+          {{ player.username }} - {{ player.score }}
+        </li>
+        {% endfor %}
+      </ul>
+      <form method="post" action="{% url 'reset_quiz' %}">
+        {% csrf_token %}
+        <button class="leaderboard-reset-button" type="submit">
+          Reset Quiz
+        </button>
+      </form>
+    </div>
+    <!-- <h1>Leaderboard</h1>
     <ul>
       {% for player in players %}
       <li>{{ player.username }} - {{ player.score }}</li>
@@ -17,6 +38,6 @@
     <form method="post" action="{% url 'reset_quiz' %}">
       {% csrf_token %}
       <button type="submit">Reset Quiz</button>
-    </form>
+    </form> -->
   </body>
 </html>
