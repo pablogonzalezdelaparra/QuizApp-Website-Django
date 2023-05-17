@@ -36,9 +36,11 @@
     <div class="index-root">
       <h1 class="quiz-title">Pablongo Quiz</h1>
       {% if question %}
-      <div>
-        <h2>Question {{ question_number }}:</h2>
-        <p>{{ question.description }}</p>
+      <div class="question-container">
+        <div class="quiz-question-desc">
+          <h2>Question {{ question_number }}:</h2>
+          <p>{{ question.description }}</p>
+        </div>
         <form method="post" action="{% url 'questions_view' %}">
           <section class="section-quiz">
             {% csrf_token %} {% for answer in question.answers %}
@@ -55,7 +57,9 @@
             </div>
             {% endfor %}
           </section>
-          <button type="submit" class="quiz-submit-answer">Submit</button>
+          <div class="quiz-button-container">
+            <button type="submit" class="quiz-submit-answer">Submit</button>
+          </div>
         </form>
       </div>
 
