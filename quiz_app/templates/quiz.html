@@ -5,6 +5,10 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/quiz.css' %}" />
     <!-- <script src="scripts/index.js"></script> -->
+    <script
+      src="https://kit.fontawesome.com/f6e32d80a1.js"
+      crossorigin="anonymous"
+    ></script>
     <script>
       function showFeedback() {
         var modal = document.getElementById("feedbackModal");
@@ -17,10 +21,7 @@
       }
     </script>
   </head>
-
   <body>
-    <div></div>
-    <h1>Quiz</h1>
     {% if feedback %}
     <div id="feedbackModal" class="modal">
       <div class="modal-content">
@@ -31,29 +32,41 @@
     <script>
       showFeedback();
     </script>
-    {% endif %} {% if question %}
-    <h2>Question {{ question_number }}:</h2>
-    <p>{{ question.description }}</p>
-    <form method="post" action="{% url 'questions_view' %}">
-      {% csrf_token %} {% for answer in question.answers %}
-      <input
-        type="radio"
-        id="{{ answer.id }}"
-        name="answer"
-        value="{{ answer.id }}"
-      />
-      <label for="{{ answer.id }}">{{ answer.description }}</label><br />
-      {% endfor %}
-      <button type="submit">Submit</button>
-    </form>
-
-    {% else %}
-    <p>Quiz completed!</p>
-    <h1>Score: {{ player.score }}</h1>
-    <form method="post" action="{% url 'leaderboard_view' %}">
-      {% csrf_token %}
-      <button type="submit">Next</button>
-    </form>
     {% endif %}
+    <div class="index-root">
+      <h1 class="quiz-title">Pablongo Quiz</h1>
+      {% if question %}
+      <div>
+        <h2>Question {{ question_number }}:</h2>
+        <p>{{ question.description }}</p>
+        <form method="post" action="{% url 'questions_view' %}">
+          <section class="section-quiz">
+            {% csrf_token %} {% for answer in question.answers %}
+            <div class="quiz-input-label">
+              <input
+                type="radio"
+                id="{{ answer.id }}"
+                name="answer"
+                value="{{ answer.id }}"
+              />
+              <label for="{{ answer.id }}">
+                <p>{{ answer.description }}</p>
+              </label>
+            </div>
+            {% endfor %}
+          </section>
+          <button type="submit" class="quiz-submit-answer">Submit</button>
+        </form>
+      </div>
+
+      {% else %}
+      <p>Quiz completed!</p>
+      <h1>Score: {{ player.score }}</h1>
+      <form method="post" action="{% url 'leaderboard_view' %}">
+        {% csrf_token %}
+        <button type="submit">Next</button>
+      </form>
+      {% endif %}
+    </div>
   </body>
 </html>
