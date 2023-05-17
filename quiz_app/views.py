@@ -32,48 +32,6 @@ def index(request):
         return render(request, 'index.html')
 
 # DESCOMENTAR CUANDO SE TERMINE DE PROBAR EL ESTILO
-# def questions_view(request):
-#     """Display a question and its answers. If the answer is correct, add 1 to
-#     the player's score."""
-#     if request.method == 'POST':
-#         # Get num of current questions, list of random question ids, and answer
-#         question_number = request.session.get('question_number', 1)
-#         random_question_ids = request.session.get('random_questions', [])
-#         submitted_answer_id = request.POST.get('answer', '')
-
-#         # Check if answer is correct
-#         feedback = check_answer(request, submitted_answer_id)
-
-#         # Display question
-#         if question_number <= len(random_question_ids):
-#             current_question_id = random_question_ids[question_number - 1]
-#             question = Question.objects.get(id=current_question_id)
-#             question_number += 1
-#             request.session['question_number'] = question_number
-#             return render(request, 'quiz.html', {
-#                 'question': question,
-#                 'question_number': question_number-1,
-#                 'feedback': feedback})
-
-#         # Display final score
-#         else:
-#             player = get_score(request)
-#             return render(request, 'quiz.html', {'player': player,
-#                                                  'feedback': feedback})
-
-#     else:
-#         question_number = request.session.get('question_number', 1)
-#         random_question_ids = request.session.get('random_questions', [])
-
-#         current_question_id = random_question_ids[question_number - 1]
-#         question = Question.objects.get(id=current_question_id)
-
-#         question_number += 1
-#         request.session['question_number'] = question_number
-
-#         return render(request, 'quiz.html', {
-#             'question': question,
-#             'question_number': question_number-1})
 
 
 def questions_view(request):
@@ -106,7 +64,6 @@ def questions_view(request):
                                                  'feedback': feedback})
 
     else:
-        '''
         question_number = request.session.get('question_number', 1)
         random_question_ids = request.session.get('random_questions', [])
 
@@ -115,12 +72,10 @@ def questions_view(request):
 
         question_number += 1
         request.session['question_number'] = question_number
-'''
-        question_1 = create_question(request)
 
         return render(request, 'quiz.html', {
-            'question': question_1,
-            'question_number': 1})
+            'question': question,
+            'question_number': question_number-1})
 
 
 def check_answer(request, submitted_answer_id):
@@ -133,35 +88,6 @@ def check_answer(request, submitted_answer_id):
         else:
             feedback = "Incorrect!"
     return feedback
-
-# DESCOMENTAR CUANDO SE TERMINE DE PROBAR EL ESTILO
-# def create_question(_request):
-#     """Create a mock question with 4 answers and save it to the database."""
-#     answer_descriptions = [
-#         "Paris",
-#         "London",
-#         "Berlin",
-#         "Madrid"
-#     ]
-
-#     is_correct_flags = [
-#         True,
-#         False,
-#         False,
-#         False
-#     ]
-
-#     question = Question(description="What is the capital of France?")
-#     question.save()
-
-#     for answer_description, is_correct in zip(answer_descriptions,
-#                                               is_correct_flags):
-#         answer = Answer(description=answer_description, is_correct=is_correct)
-#         answer.save()
-#         question.answers.append(answer)
-#         question.save()
-
-#     return redirect('get_questions')
 
 
 def create_question(_request):
@@ -190,7 +116,7 @@ def create_question(_request):
         question.answers.append(answer)
         question.save()
 
-    return question
+    return redirect('get_questions')
 
 
 def get_questions(request):
