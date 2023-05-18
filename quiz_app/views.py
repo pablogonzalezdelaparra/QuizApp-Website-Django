@@ -12,7 +12,10 @@ def index(request):
 
         # Get number of questions and username from form
         num_questions = request.POST.get('num_questions', 1)
-        username = request.POST.get('username', "Anonymous")
+        username = request.POST.get('username')
+
+        if (username == ''):
+            username = 'Anonymous'
 
         # Create a list of random question ids
         random_question_ids = sample(question_ids, int(num_questions))
@@ -41,31 +44,46 @@ def questions_view(request):
         # Get num of current questions, list of random question ids, and answer
         question_number = request.session.get('question_number', 1)
         random_question_ids = request.session.get('random_questions', [])
-        submitted_answer_id = request.POST.get('answer', '')
+        submitted_answer_id = request.POST.get('answer')
 
-        # Check if answer is correct
-        feedback = check_answer(request, submitted_answer_id)
-
-        # Display question
-        if question_number <= len(random_question_ids):
-            current_question_id = random_question_ids[question_number - 1]
+        if submitted_answer_id is None:
+            feedback = "Please select an answer."
+            current_question_id = random_question_ids[question_number]
             question = Question.objects.get(id=current_question_id)
-            question_number += 1
-            request.session['question_number'] = question_number
             return render(request, 'quiz.html', {
                 'question': question,
                 'question_number': question_number-1,
                 'feedback': feedback})
-
-        # Display final score
         else:
-            player = get_score(request)
-            return render(request, 'quiz.html', {'player': player,
-                                                 'feedback': feedback})
+            # Check if answer is correct
+            feedback = check_answer(request, submitted_answer_id)
+
+            # Display question
+            if question_number <= len(random_question_ids):
+                current_question_id = random_question_ids[question_number - 1]
+                question = Question.objects.get(id=current_question_id)
+                question_number += 1
+                request.session['question_number'] = question_number
+                return render(request, 'quiz.html', {
+                    'question': question,
+                    'question_number': question_number-1,
+                    'feedback': feedback})
+
+            # Display final score
+            else:
+                player = get_score(request)
+                return render(request, 'quiz.html', {'player': player,
+                                                     'feedback': feedback})
 
     else:
         question_number = request.session.get('question_number', 1)
         random_question_ids = request.session.get('random_questions', [])
+
+        print(question_number, len(random_question_ids))
+
+        # TODO: Handle case where user tries to access quiz without submitting
+        if (question_number > len(random_question_ids)):
+            return redirect('index')
 
         current_question_id = random_question_ids[question_number - 1]
         question = Question.objects.get(id=current_question_id)

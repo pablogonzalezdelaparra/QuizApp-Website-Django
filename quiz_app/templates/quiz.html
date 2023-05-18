@@ -66,6 +66,7 @@
       {% else %}
       <div class="quiz-completed">
         <h1>Quiz completed!</h1>
+        <p>Username: {{ player.username }}</p>
         <p>Score: {{ player.score }}</p>
         <form method="post" action="{% url 'leaderboard_view' %}">
           {% csrf_token %}

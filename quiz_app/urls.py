@@ -1,6 +1,7 @@
 from django.urls import path
 from quiz_app.views import \
-    create_question, get_questions, index, questions_view, leaderboard_view, reset_quiz
+    create_question, get_questions, index, questions_view, \
+    leaderboard_view, reset_quiz
 
 urlpatterns = [
     path('', index, name='index'),
