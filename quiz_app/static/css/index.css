@@ -94,6 +94,8 @@
 }
 
 .btn-tarjeta-inicio {
+  display: flex;
+  justify-content: center;
 }
 
 .btn-tarjeta-inicio > button {

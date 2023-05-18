@@ -13,31 +13,26 @@
     <title>Leaderboard</title>
   </head>
   <body>
-    <div class="leaderboard-container">
-      <h1 class="leaderboard-title">Leaderboard</h1>
-      <ul class="leaderboard-list">
-        {% for player in players %}
-        <li class="leaderboard-item">
-          {{ player.username }} - {{ player.score }}
-        </li>
-        {% endfor %}
-      </ul>
-      <form method="post" action="{% url 'reset_quiz' %}">
-        {% csrf_token %}
-        <button class="leaderboard-reset-button" type="submit">
-          Reset Quiz
-        </button>
-      </form>
+    <div class="index-root">
+      <h1 class="leaderboard-title">Pablongo Quiz</h1>
+      <div class="leaderboard-box">
+        <h1>Leaderboard</h1>
+        <ul class="leaderboard-list">
+          {% for player in players %}
+          <li class="leaderboard-item">
+            {{ player.username }} - {{ player.score }}
+          </li>
+          {% endfor %}
+        </ul>
+        <form method="post" action="{% url 'reset_quiz' %}">
+          {% csrf_token %}
+          <div class="leaderboard-reset-button-cont">
+            <button class="leaderboard-reset-button" type="submit">
+              Reset Quiz
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-    <!-- <h1>Leaderboard</h1>
-    <ul>
-      {% for player in players %}
-      <li>{{ player.username }} - {{ player.score }}</li>
-      {% endfor %}
-    </ul>
-    <form method="post" action="{% url 'reset_quiz' %}">
-      {% csrf_token %}
-      <button type="submit">Reset Quiz</button>
-    </form> -->
   </body>
 </html>

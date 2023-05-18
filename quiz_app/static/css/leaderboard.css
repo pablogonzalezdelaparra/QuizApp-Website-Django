@@ -6,32 +6,71 @@
     Helvetica Neue, Ubuntu, sans-serif;
 }
 
-.leaderboard-container {
+.index-root {
+  background: #fff;
   display: flex;
-  flex-direction: column;
+  width: 100%;
+  /* min-height: 100vh;
+  overflow: hidden; */
+  justify-content: center;
   align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
-  background-color: #fff;
-  padding-top: 2rem;
+  flex-direction: column;
 }
 
 .leaderboard-title {
   letter-spacing: -2px;
   color: rgb(84, 105, 212);
   margin-bottom: 2rem;
+  text-align: center;
+  margin-block-start: 0.335em;
+  margin-block-end: 2em;
+}
+
+.leaderboard-box {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px;
+  min-width: 400px;
+  max-width: 448px;
+  border-radius: 4px;
+  box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px,
+    rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+}
+
+.leaderboard-box h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 16px;
   margin-top: 0;
+  text-align: center;
 }
 
 .leaderboard-list {
-  list-style: none;
-  padding: 0;
-  margin-top: 2rem;
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .leaderboard-item {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  display: table-row;
+  text-align: center;
+}
+
+.leaderboard-item span {
+  display: table-cell;
+  padding: 8px 16px;
+  border-bottom: 1px solid #ddd;
+}
+
+.leaderboard-item:first-child {
+  font-weight: bold;
+}
+
+.leaderboard-reset-button-cont {
+  display: flex;
+  justify-content: center;
 }
 
 .leaderboard-reset-button {
@@ -44,7 +83,8 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-top: 2rem;
+  margin-top: 16px;
+  align-self: center;
 }
 
 .leaderboard-reset-button:hover {
