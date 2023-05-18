@@ -89,6 +89,7 @@
   letter-spacing: -2px;
   color: rgb(84, 105, 212);
   margin-block-start: 0.335em;
+  margin-block-end: 0.335em;
 }
 
 .question-container {
@@ -131,17 +132,22 @@ label {
   border: 2px solid rgb(84, 105, 212);
   border-radius: 20px;
   padding: 1rem;
-  /* margin-bottom: 1rem; */
-  /* //margin: 1rem; */
   text-align: center;
   box-shadow: 0px 3px 10px -2px #a6afd3;
   position: relative;
 }
 
+input[type="radio"] + label + p {
+  transition: background-color 0.3s ease;
+}
+
 input[type="radio"]:checked + label {
-  background: rgba(176, 189, 253, 0.75);
+  background: rgb(84, 105, 212);
   color: rgb(255, 255, 255);
   box-shadow: 0px 0px 20px rgba(84, 105, 212, 0.75);
+  & p {
+    color: #fff;
+  }
   &::after {
     color: hsla(215, 5%, 25%, 1);
     font-family: FontAwesome;
@@ -160,6 +166,10 @@ input[type="radio"]:checked + label {
     background: white;
     box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.25);
   }
+}
+
+input[type="radio"]:not(:checked):hover + label {
+  background-color: rgba(176, 189, 253, 0.25);
 }
 
 label > p {
