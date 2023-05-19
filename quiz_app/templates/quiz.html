@@ -1,79 +1,73 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Quiz</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/quiz.css' %}" />
-    <!-- <script src="scripts/index.js"></script> -->
-    <script
-      src="https://kit.fontawesome.com/f6e32d80a1.js"
-      crossorigin="anonymous"
-    ></script>
-    <script>
-      function showFeedback() {
-        var modal = document.getElementById("feedbackModal");
-        modal.style.display = "block";
-      }
 
-      function closeFeedback() {
-        var modal = document.getElementById("feedbackModal");
-        modal.style.display = "none";
-      }
-    </script>
-  </head>
-  <body>
-    {% if feedback %}
-    <div id="feedbackModal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeFeedback()">&times;</span>
-        <p>{{ feedback }}</p>
-      </div>
+<head>
+  <title>Quiz</title>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/quiz.css' %}" />
+  <!-- <script src="scripts/index.js"></script> -->
+  <script src="https://kit.fontawesome.com/f6e32d80a1.js" crossorigin="anonymous"></script>
+  <script>
+    function showFeedback() {
+      var modal = document.getElementById("feedbackModal");
+      modal.style.display = "block";
+    }
+
+    function closeFeedback() {
+      var modal = document.getElementById("feedbackModal");
+      modal.style.display = "none";
+    }
+  </script>
+</head>
+
+<body>
+  {% if feedback %}
+  <div id="feedbackModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeFeedback()">&times;</span>
+      <p>{{ feedback }}</p>
     </div>
-    <script>
-      showFeedback();
-    </script>
-    {% endif %}
-    <div class="index-root">
-      <h1 class="quiz-title">Pablongo Quiz</h1>
-      {% if question %}
-      <div class="question-container">
-        <div class="quiz-question-desc">
-          <h2>Question {{ question_number }}:</h2>
-          <p>{{ question.description }}</p>
-        </div>
-        <form method="post" action="{% url 'questions_view' %}">
-          <section class="section-quiz">
-            {% csrf_token %} {% for answer in question.answers %}
-            <div class="quiz-input-label">
-              <input
-                type="radio"
-                id="{{ answer.id }}"
-                name="answer"
-                value="{{ answer.id }}"
-              />
-              <label for="{{ answer.id }}">
-                <p>{{ answer.description }}</p>
-              </label>
-            </div>
-            {% endfor %}
-          </section>
-          <div class="quiz-button-container">
-            <button type="submit" class="quiz-submit-answer">Submit</button>
+  </div>
+  <script>
+    showFeedback();
+  </script>
+  {% endif %}
+  <div class="index-root">
+    <h1 class="quiz-title">Pablongo Quiz</h1>
+    {% if question %}
+    <div class="question-container">
+      <div class="quiz-question-desc">
+        <h2>Question {{ question_number }}:</h2>
+        <p>{{ question.description }}</p>
+      </div>
+      <form method="post" action="{% url 'questions_view' %}">
+        <section class="section-quiz">
+          {% csrf_token %} {% for answer in question.answers %}
+          <div class="quiz-input-label">
+            <input type="radio" id="{{ answer.id }}" name="answer" value="{{ answer.id }}" />
+            <label for="{{ answer.id }}">
+              <p>{{ answer.description }}</p>
+            </label>
           </div>
-        </form>
-      </div>
-
-      {% else %}
-      <div class="quiz-completed">
-        <h1>Quiz completed!</h1>
-        <p>Username: {{ player.username }}</p>
-        <p>Score: {{ player.score }}</p>
-        <form method="post" action="{% url 'leaderboard_view' %}">
-          {% csrf_token %}
-          <button type="submit">Next</button>
-        </form>
-      </div>
-      {% endif %}
+          {% endfor %}
+        </section>
+        <div class="quiz-button-container">
+          <button type="submit" class="quiz-submit-answer">Submit</button>
+        </div>
+      </form>
     </div>
-  </body>
+
+    {% else %}
+    <div class="quiz-completed">
+      <h1>Quiz completed!</h1>
+      <p>Score: {{ player }}</p>
+      <form method="post" action="{% url 'leaderboard_view' %}">
+        {% csrf_token %}
+        <button type="submit">Next</button>
+      </form>
+    </div>
+    {% endif %}
+  </div>
+</body>
+
 </html>
