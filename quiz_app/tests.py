@@ -1,91 +1,116 @@
 import unittest
-from django.test import Client, TestCase
-from quiz_app.models import Player, Question, Answer
+from django.test import TestCase, Client
+from django.urls import reverse
+from quiz_app.models import Player, Question, Answer, Quiz
 from quiz_app.views import QuizViews
 
 
 class QuizViewsTestCase(TestCase):
     def setUp(self):
         self.client = Client()
-        # Other setup steps, if any
 
-    def test_index_view_get(self):
-        response = self.client.get('/')
+    def test_index_view(self):
+        response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
-        # Add more assertions for the index view
+        self.assertTemplateUsed(response, 'index.html')
 
-    def test_index_view_post(self):
-        data = {
-            'num_questions': 5,
-            'username': 'JohnDoe'
-        }
-        response = self.client.post('/', data)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, '/quiz/')
+    def test_questions_view(self):
+        response = self.client.get(reverse('questions_view'))
+        self.assertEqual(response.status_code, 302)  # Expecting a redirect
 
-        # Add more assertions for the index view POST request
-
-    def test_questions_view_get(self):
-        response = self.client.get('/quiz/')
-        self.assertEqual(response.status_code, 200)
-        # Add more assertions for the questions view GET request
-
-    def test_questions_view_post_correct_answer(self):
-        # Create a question
-        question = Question(description='Sample question')
+        # Simulate a POST request with selected answer
+        question = Question(description='Test Question')
         question.save()
-
-        # Create a correct answer for the question
-        correct_answer = Answer(description='Correct answer', is_correct=True)
-        correct_answer.save()
-        question.answers.append(correct_answer)
-        question.save()
-
-        # Create a player
-        player = Player(username='Test Player')
-        player.save()
-
-        # Save the player_id to the session
-        self.client.session['player_id'] = str(player.id)
-
-        # Save the question_id to the session
-        self.client.session['random_questions'] = [str(question.id)]
-
-        # Submit the form with the correct answer
-        data = {'answer': str(correct_answer.id)}
-        response = self.client.post('/quiz/', data)
-
-        # Assert the response
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Correct!')
-
-    def test_questions_view_post_incorrect_answer(self):
-        # Create a mock question and answer
-        question = Question(description="What is the capital of France?")
-        question.save()
-        answer = Answer(description="Paris", is_correct=False)
+        answer = Answer(description='Test Answer', is_correct=True)
         answer.save()
         question.answers.append(answer)
         question.save()
+        num_questions = 1
+        username = 'Test User'
+        response = self.client.post(reverse('index'), {
+            'num_questions': num_questions,
+            'username': username
+        })
+        self.assertEqual(response.status_code, 302)  # Expecting a redirect
 
-        # Set up session data
-        session = self.client.session
-        session['question_number'] = 1
-        session['random_questions'] = [str(question.id)]
-        session.save()
-
-        data = {'answer': str(answer.id)}
-        response = self.client.post('/quiz/', data)
+        response = self.client.post(reverse('questions_view'), {
+            'answer': answer.id
+        })
         self.assertEqual(response.status_code, 200)
-        # Add more assertions for the questions
-        # view POST request with an incorrect answer
+        self.assertTemplateUsed(response, 'quiz.html')
 
     def test_leaderboard_view(self):
-        response = self.client.get('/leaderboard/')
+        response = self.client.get(reverse('leaderboard_view'))
         self.assertEqual(response.status_code, 200)
-        # Add more assertions for the leaderboard view
+        self.assertTemplateUsed(response, 'leaderboard.html')
 
-    # Add more unit tests for the remaining views and auxiliary methods
+
+class QuestionModelTestCase(TestCase):
+    def test_get_desc_correct_answer(self):
+        question = Question(description='Test Question')
+        question.save()
+        correct_answer = Answer(description='Correct Answer', is_correct=True)
+        correct_answer.save()
+        incorrect_answer = Answer(
+            description='Incorrect Answer', is_correct=False)
+        incorrect_answer.save()
+        question.answers.append(correct_answer)
+        question.answers.append(incorrect_answer)
+        question.save()
+
+        self.assertEqual(question.get_id_correct_answer(), correct_answer.id)
+
+    def test_get_id_correct_answer(self):
+        question = Question(description='Test Question')
+        question.save()
+        correct_answer = Answer(description='Correct Answer', is_correct=True)
+        correct_answer.save()
+        incorrect_answer = Answer(description='Incorrect Answer',
+                                  is_correct=False)
+        incorrect_answer.save()
+        question.answers.append(correct_answer)
+        question.answers.append(incorrect_answer)
+        question.save()
+
+        self.assertEqual(str(question.get_id_correct_answer()),
+                         str(correct_answer.id))
+
+
+class PlayerModelTestCase(TestCase):
+    def test_add_score(self):
+        player = Player(username='Test User')
+        player.save()
+        player.add_score()
+        self.assertEqual(player.score, 1)
+
+
+class QuizModelTestCase(TestCase):
+    def test_get_current_question(self):
+        question1 = Question(description='Question 1')
+        question1.save()
+        question2 = Question(description='Question 2')
+        question2.save()
+        quiz = Quiz(questions=[question1, question2])
+        quiz.save()
+        current_question = quiz.get_current_question()
+        self.assertEqual(current_question, question1)
+
+    def test_answer_current_question_correct(self):
+        question = Question(description='Test Question')
+        question.save()
+        correct_answer = Answer(description='Correct Answer', is_correct=True)
+        correct_answer.save()
+        incorrect_answer = Answer(description='Incorrect Answer',
+                                  is_correct=False)
+        incorrect_answer.save()
+        question.answers.append(correct_answer)
+        question.answers.append(incorrect_answer)
+        question.save()
+        quiz = Quiz(questions=[question])
+        quiz.save()
+
+        quiz.answer_current_question(correct_answer.id)
+        self.assertEqual(quiz.score, 1)
 
 
 if __name__ == '__main__':

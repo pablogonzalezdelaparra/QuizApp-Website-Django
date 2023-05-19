@@ -67,6 +67,9 @@ class QuizViews:
                         'feedback': feedback})
 
         else:
+            if 'player_id' not in request.session:
+                # Redirect to the index page if the player id is not in session
+                return redirect('index')
             # Get next question
             question, random_question_ids, question_number, \
                 current_question_id = QuizViews.get_next_question(request)
