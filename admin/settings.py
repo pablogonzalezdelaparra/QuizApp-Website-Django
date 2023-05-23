@@ -82,16 +82,16 @@ WSGI_APPLICATION = 'admin.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'your-db-name',
+        'NAME': 'quiz_app',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-                'host': "mongodb://localhost:27017"
+                'host': "mongodb://52.205.252.113:27017/"
         }
     }
 }
 
-mongoengine.register_connection(alias='default', name='your-db-name',
-                                host='mongodb://localhost:27017/')
+mongoengine.register_connection(alias='default', name='quiz_app',
+                                host='mongodb://52.205.252.113:27017/')
 
 
 # Password validation

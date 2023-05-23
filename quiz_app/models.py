@@ -28,6 +28,7 @@ class Question(Document):
     """A question is a list of answers."""
     description = fields.StringField(max_length=200)
     answers = fields.ListField(fields.ReferenceField('Answer'))
+    feedback = fields.StringField(max_length=800)
 
     def __init__(self, *args, **kwargs):
         super(Question, self).__init__(*args, **kwargs)

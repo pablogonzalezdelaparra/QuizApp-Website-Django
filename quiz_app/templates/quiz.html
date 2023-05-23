@@ -41,6 +41,7 @@
         <p>{{ question.description }}</p>
       </div>
       <form method="post" action="{% url 'questions_view' %}">
+        <input style="display:none" type="text" id="{{ question.id }}" name="feedback" value="{{ question.feedback }}" />
         <section class="section-quiz">
           {% csrf_token %} {% for answer in question.answers %}
           <div class="quiz-input-label">
