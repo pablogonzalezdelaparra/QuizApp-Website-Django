@@ -85,13 +85,13 @@ DATABASES = {
         'NAME': 'quiz_app',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-                'host': "mongodb://52.205.252.113:27017/"
+                'host': "mongodb://localhost:27017/"
         }
     }
 }
 
 mongoengine.register_connection(alias='default', name='quiz_app',
-                                host='mongodb://52.205.252.113:27017/')
+                                host='mongodb://localhost:27017/')
 
 
 # Password validation
