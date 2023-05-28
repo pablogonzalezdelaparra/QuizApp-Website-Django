@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': 'quiz_app',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-                'host': "mongodb://localhost:27017/"
+            'host': "mongodb://ec2-54-158-186-107.compute-1.amazonaws.com:27017/"
         }
     }
 }

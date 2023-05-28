@@ -5,7 +5,7 @@ from datetime import datetime
 
 class Quiz(Document):
     """A quiz is a list of questions."""
-    questions = fields.ListField(fields.StringField())
+    questions = fields.ListField(fields.ReferenceField('Question'))
     current_question = fields.IntField(default=0)
     score = fields.IntField(default=0)
 
@@ -46,7 +46,7 @@ class Quiz(Document):
 class Question(Document):
     """A question is a list of answers."""
     description = fields.StringField(max_length=800)
-    answers = fields.ListField(fields.StringField())
+    answers = fields.ListField(fields.ReferenceField('Answer'))
     feedback = fields.StringField(max_length=800)
 
     def __init__(self, *args, **kwargs):
@@ -113,7 +113,7 @@ class Player(Document):
 
 class QuizService(Document):
     """A quiz service is a list of quizzes."""
-    quizzes = fields.ListField(fields.StringField())
+    quizzes = fields.ListField(fields.ReferenceField('Quiz'))
 
     def __init__(self, *args, **kwargs):
         super(QuizService, self).__init__(*args, **kwargs)
@@ -124,7 +124,7 @@ class QuizService(Document):
 
 class Leaderboard(Document):
     """A leaderboard is a list of players."""
-    leaderboard = fields.ListField(fields.StringField())
+    leaderboard = fields.ListField(fields.ReferenceField('Player'))
 
     def __init__(self, *args, **kwargs):
         super(Leaderboard, self).__init__(*args, **kwargs)
