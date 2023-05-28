@@ -90,8 +90,8 @@ DATABASES = {
     }
 }
 
-# mongoengine.register_connection(alias='default', name='quiz_app',
-#                                host='mongodb://127.0.0.0:27017/')
+mongoengine.register_connection(alias='default', name='quiz_app',
+                               host='mongodb://ec2-54-158-186-107.compute-1.amazonaws.com:27017/')
 
 
 # Password validation
