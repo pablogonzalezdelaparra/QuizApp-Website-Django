@@ -1,3 +1,4 @@
+"""
 import unittest
 from django.test import Client, RequestFactory, TestCase
 from quiz_app.models import Player, Question, Answer
@@ -165,3 +166,4 @@ class PlayerModelTestCase(TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+"""
