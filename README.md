@@ -11,9 +11,14 @@
 The Pablongo's Quiz App is a web application that allows users to participate in quizzes by answering questions related to **design patterns** and **SOLID principles** and keeping track of their scores. Users can also view the leaderboard to see the top scorers, and reset the quiz to participate as many times as they want.
 
 ## Web Location
-Please note that the Quiz App is meant to be run locally (for now). However, the **MongoDB Database** is hosted on an **Amazon EC2 instance**, which is already declared in the code respectively, and should only be accessed through this web app respectively (for security reasons).
+Please note that while the Quiz App can also be run locally, it is currently hosted in a **AWS EC2 instance**. The link to access it is:
+```
+http://54.162.170.59:8000/
+```
 
-In order to prove the functionality of the application hosted on a cloud server provider, please access the following link.
+The **MongoDB Database** is also hosted on a separate **Amazon EC2 instance**, and should only be accessed through the web app respectively. For security reasons, the address of the MongoDB instance is not listed in this README.md
+
+In order to prove the functionality of the application hosted on a cloud server provider (in case of an error in the server), please access the following link.
 
 [Video Demonstration of Quiz App hosted on AWS (Google Drive)](https://drive.google.com/file/d/1_elmj8OsGaAJ_pMnljoh82n9TBGPFjaY/view?usp=sharing)
 
