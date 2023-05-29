@@ -9,7 +9,7 @@
 
 import unittest
 from django.test import Client, RequestFactory, TestCase
-from quiz_app.models import Player, Question, Answer
+from quiz_app.models import Leaderboard, Player, Question, Answer, QuizService
 from django.test import TestCase, Client
 from django.urls import reverse
 from quiz_app.models import Player, Question, Answer, Quiz
@@ -23,6 +23,7 @@ class QuizViewsTestCase(TestCase):
 
     def test_index_view_get(self):
         response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
 
     def test_index_view(self):
         response = self.client.get(reverse('index'))
@@ -41,6 +42,7 @@ class QuizViewsTestCase(TestCase):
 
     def test_questions_view_get(self):
         response = self.client.get('/quiz/')
+        self.assertEqual(response.status_code, 302)
 
     def test_leaderboard_view(self):
         response = self.client.get(reverse('leaderboard_view'))
@@ -55,6 +57,27 @@ class QuizViewsTestCase(TestCase):
 
         # Create a correct answer for the question
         correct_answer = Answer(description='Correct answer', is_correct=True)
+        correct_answer.save()
+        question.answers.append(correct_answer)
+        question.save()
+
+        # Create a player
+        player = Player(username='Test Player')
+        player.save()
+
+        # Set up session data
+        session = self.client.session
+        session['question_number'] = 1
+        session['random_questions'] = [str(question.id)]
+        session['player_id'] = str(player.id)
+        session.save()
+
+        # Submit the form with the correct answer
+        data = {'answer': str(correct_answer.id), 'feedback': 'Correct!'}
+        response = self.client.post('/quiz/', data)
+
+        # Assert the response
+        self.assertEqual(response.status_code, 200)
 
     def test_reset_quiz(self):
         # Create a mock player
@@ -170,6 +193,53 @@ class PlayerModelTestCase(TestCase):
         # Assert the response
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '5')
+
+
+class AnswerModelTestCase(TestCase):
+    def test_get_description(self):
+        answer = Answer(description="Sample answer")
+        self.assertEqual(answer.get_description(), "Sample answer")
+
+    def test_get_is_correct(self):
+        answer = Answer(is_correct=True)
+        self.assertEqual(answer.get_is_correct(), "True")
+
+
+class QuizServiceModelTestCase(TestCase):
+    def test_get_quiz(self):
+        quiz_service = QuizService()
+        quiz1 = Quiz()
+        quiz2 = Quiz()
+        quiz_service.quizzes = [quiz1, quiz2]
+        quiz = quiz_service.get_quiz(0)
+        self.assertEqual(quiz, quiz1)
+
+
+class LeaderboardModelTestCase(TestCase):
+    def test_add_player(self):
+        leaderboard = Leaderboard()
+        request = self.client.request()
+
+        # Set up session data
+        session = self.client.session
+        session['question_number'] = 1
+        session.save()
+        request.session = session
+
+        username = "Test Player"
+        leaderboard.add_player(request, username)
+        self.assertEqual(len(leaderboard.leaderboard), 1)
+        self.assertEqual(leaderboard.leaderboard[0].username, username)
+
+    def test_get_leaderboard(self):
+        leaderboard = Leaderboard()
+        player1 = Player(score=20)
+        player2 = Player(score=20)
+        player1.save()
+        player2.save()
+        leaderboard.leaderboard = [player1, player2]
+        players = leaderboard.get_leaderboard()
+        self.assertGreaterEqual(len(players), 2)
 
 
 if __name__ == '__main__':

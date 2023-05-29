@@ -7,8 +7,6 @@
 # Pablo González de la Parra | A01745096
 # David Damián Galán | A01752785
 
-
-
 from random import sample
 from mongoengine import Document, fields
 from datetime import datetime

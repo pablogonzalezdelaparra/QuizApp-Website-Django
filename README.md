@@ -20,9 +20,9 @@ The **MongoDB Database** is also hosted on a separate **Amazon EC2 instance**, a
 
 In order to prove the functionality of the application hosted on a cloud server provider (in case of an error in the server), please access the following link.
 
-[Video Demonstration of Quiz App hosted on AWS (Google Drive)](https://drive.google.com/file/d/1_elmj8OsGaAJ_pMnljoh82n9TBGPFjaY/view?usp=sharing)
+[Video and Screenshot Demonstration of Quiz App hosted on AWS (Google Drive)](https://drive.google.com/drive/folders/1TOPbXmoKa-CxpHDU57gI539-TqItJ4c5?usp=sharing)
 
-## Installation
+## Installation (Locally)
 
 1. Clone the repository:
 
@@ -62,6 +62,12 @@ python manage.py runserver
 ```
 
 7. Access the application at [http://localhost:8000](http://localhost:8000).
+
+`NOTE`: It is important to note that to populate the local MongoDB database with questions, the following command must be uncommented from the `views.py` file (line 42), and the server must be restarted.
+```
+# Run only the first time. Then comment out.!!!
+QuizViews.load_questions_in_db(QuizViews)
+```
 
 ## Diagram(s) of the system and its constituent parts.
 ![Image Description](./static/img/class_diagram.png)
