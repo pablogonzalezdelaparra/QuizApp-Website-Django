@@ -566,6 +566,40 @@ class QuizViews:
                 "feedback": "Throughput is the term used to describe the \
                     amount of work that a software system can perform in \
                         a given period of time."
+            },
+            {
+                "question": "Which software testing technique focuses on testing individual functions or methods?",
+                "choices": [
+                    {"description": "Unit testing", "is_correct": True},
+                    {"description": "Integration testing", "is_correct": False},
+                    {"description": "System testing", "is_correct": False},
+                    {"description": "Acceptance testing", "is_correct": False}
+                ],
+                "feedback": "Unit testing focuses on testing individual functions or methods."
+            },
+            {
+                "question": "Which design principle states that a class should have only one reason to change?",
+                "choices": [
+                    {"description": "Single Responsibility Principle",
+                        "is_correct": True},
+                    {"description": "Open/Closed Principle", "is_correct": False},
+                    {"description": "Liskov Substitution Principle",
+                        "is_correct": False},
+                    {"description": "Dependency Inversion Principle",
+                        "is_correct": False}
+                ],
+                "feedback": "The Single Responsibility Principle states that a class should have only one reason to change."
+            },
+            {
+                "question": "Which software development methodology emphasizes close collaboration between developers and stakeholders?",
+                "choices": [
+                    {"description": "Agile methodology", "is_correct": True},
+                    {"description": "Waterfall methodology", "is_correct": False},
+                    {"description": "RAD (Rapid Application Development)",
+                     "is_correct": False},
+                    {"description": "V-Model methodology", "is_correct": False}
+                ],
+                "feedback": "Agile methodology emphasizes close collaboration between developers and stakeholders."
             }
 
         ]
