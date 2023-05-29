@@ -57,6 +57,9 @@ class QuizViews:
             if submitted_answer_id is None:
                 # Display message if no answer is selected
                 feedback = "Please select an answer."
+                current_question_id = random_question_ids[
+                    question_number - 1]
+                question = Question.objects.get(id=current_question_id)
                 return render(request, 'quiz.html', {
                     'question': question,
                     'question_number': question_number-1,
