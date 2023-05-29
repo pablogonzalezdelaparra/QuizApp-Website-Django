@@ -29,7 +29,8 @@ SECRET_KEY = \
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS: list = ['54.162.170.59', '54.174.248.132', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS: list = ['54.162.170.59', '54.174.248.132',
+                       'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -85,13 +86,13 @@ DATABASES = {
         'NAME': 'quiz_app',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-            'host': "mongodb://ec2-54-158-186-107.compute-1.amazonaws.com:27017/"
+            'host': "mongodb://localhost:27017/"
         }
     }
 }
 
 mongoengine.register_connection(alias='default', name='quiz_app',
-                               host='mongodb://ec2-54-158-186-107.compute-1.amazonaws.com:27017/')
+                                host='mongodb://localhost:27017/')
 
 
 # Password validation
