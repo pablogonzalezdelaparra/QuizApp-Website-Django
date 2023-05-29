@@ -7,6 +7,7 @@
 # Pablo González de la Parra | A01745096
 # David Damián Galán | A01752785
 
+from datetime import datetime
 import unittest
 from django.test import Client, RequestFactory, TestCase
 from quiz_app.models import Leaderboard, Player, Question, Answer, QuizService
@@ -233,13 +234,25 @@ class LeaderboardModelTestCase(TestCase):
 
     def test_get_leaderboard(self):
         leaderboard = Leaderboard()
-        player1 = Player(score=20)
+        player1 = Player(score=10)
         player2 = Player(score=20)
         player1.save()
         player2.save()
-        leaderboard.leaderboard = [player1, player2]
         players = leaderboard.get_leaderboard()
-        self.assertGreaterEqual(len(players), 2)
+        self.assertEqual(players[0].score, 20)
+        self.assertEqual(players[1].score, 10)
+
+    def test_handle_ties_leaderboard(self):
+        leaderboard = Leaderboard()
+        player1 = Player(
+            username="Pablo", score=30, date=datetime(2023, 1, 1))
+        player2 = Player(
+            username="Valeria", score=30, date=datetime(2023, 2, 2))
+        player1.save()
+        player2.save()
+        players = leaderboard.get_leaderboard()
+        self.assertEqual(players[0].username, "Valeria")
+        self.assertEqual(players[1].username, "Pablo")
 
 
 if __name__ == '__main__':
