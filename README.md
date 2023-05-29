@@ -85,7 +85,7 @@ The code establishes a clear structure of responsibilities and supports flexible
 ## Unit testing
 In order test the program in order to guarantee the correct functionality of the general functions of this Django application, execute this next command in the project directory.
 ```
-python manage.py test
+python manage.py test --settings=quiz_app.settings_test
 ```
 
 ## Routes
