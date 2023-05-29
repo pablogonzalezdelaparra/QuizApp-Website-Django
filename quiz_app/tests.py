@@ -175,6 +175,30 @@ class QuestionModelTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Incorrect.')
 
+    def test_check_answer_with_no_answer(self):
+        # Create a player
+        player = Player(username='Test Player')
+        player.save()
+        # Create a mock question
+        question = Question(description='Test Question')
+        question.save()
+
+        # Set up session data
+        session = self.client.session
+        session['question_number'] = 1
+        session['random_questions'] = [str(question.id)]
+        session['player_id'] = str(player.id)
+
+        session.save()
+
+        # Submit the form with the incorrect answer
+        data = {'feedback': 'Incorrect!'}
+        response = self.client.post('/quiz/', data)
+
+        # Assert the response
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Please select an answer.')
+
 
 class PlayerModelTestCase(TestCase):
     # Existing test methods
