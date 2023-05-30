@@ -138,5 +138,8 @@ python manage.py test --settings=quiz_app.settings_test
 
 Feel free to modify and extend the project as per your requirements.
 
+## Feedback
+As a group, we consider that we did a great work as a team. Each one of us contributed equally to the development of this project.
+
 ## License
 This project is licensed under the [MIT License](LICENSE).
