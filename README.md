@@ -72,11 +72,17 @@ QuizViews.load_questions_in_db(QuizViews)
 ## Diagram(s) of the system and its constituent parts.
 ![Image Description](./static/img/class_diagram.png)
 
+The diagram above is based the following diagram, which was made before the implementation and then modified accordingly.
+![Image Description](./static/img/class_diagram_original.png)
 ## Patterns used, SOLID principles and Architecture Patterns
 - **Patterns**:
 In order to for writing clear and concise code, we implemented some of the design patterns and best practices during this project. The code uses the design pattern **Singleton** in the Player model to ensure there is only one instance of the Player class. This makes it easy to access and modify the player's data throughout the entire application, through the implemented model that Django offers for DB manipulation. The code also follows the **Single Responsibility Principle**, where each model (Question, Answer, Player) has a specific role in managing its own data. This is notable throughout the whole application, as well as being present in the logical separation in between separate collections in the MongoDB.
 - **SOLID Principles**: Additionally, the code partially adheres to the **Open/Closed Principle** by separating different concerns and allowing for easy extension without needing to modify existing code. 
-This allows for the addition of new functionality or features by creating new models or modifying existing ones, rather than directly modifying the core implementation. One clear example id the type of questions that can be added.
+This allows for the addition of new functionality or features by creating new models or modifying existing ones, rather than directly modifying the core implementation. One clear example is the type of questions that can be added, or not being subject to questions with exactly 4 answers.
+
+- **Testing with mocks**:
+We are using a mock version of MongoDB to prevent the tests passing or failing depending on the state of the real database. This way, it is easier to control what will be stored in the database and we can make sure that the logic is correctly implemented, enforcing self-contained tests.
+
 - **Architecture Patterns**:
 The code incorporates the TVC (Template View Controller) pattern, which is a variation of the MVC (Model-View-Controller) pattern, due to Django's strict logical separation of controllers. In this pattern, the views take charge of rendering the HTML templates, the controllers handle the business logic and user input, and the models represent the data and maintain the application's state. In this specific case, the QuizViews class functioned as the controller (with all the business logic), the templates for rendering the frontend functioned as the view, and the models where simply the models that Django (w/ djongo and mongoengine) let us model in the MongoDB database.
 
