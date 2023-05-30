@@ -74,6 +74,9 @@ QuizViews.load_questions_in_db(QuizViews)
 
 The diagram above is based the following diagram, which was made before the implementation and then modified accordingly.
 ![Image Description](./static/img/class_diagram_original.png)
+
+At the same time, a behavioral diagram was created to model what should happen in the leaderboard in case of ties. In this diagram, ties would be handled by sorting alphabetically, but the implementation uses the latest submission.
+![Image Description](./static/img/behavioral_diagram.png)
 ## Patterns used, SOLID principles and Architecture Patterns
 - **Patterns**:
 In order to for writing clear and concise code, we implemented some of the design patterns and best practices during this project. The code uses the design pattern **Singleton** in the Player model to ensure there is only one instance of the Player class. This makes it easy to access and modify the player's data throughout the entire application, through the implemented model that Django offers for DB manipulation. The code also follows the **Single Responsibility Principle**, where each model (Question, Answer, Player) has a specific role in managing its own data. This is notable throughout the whole application, as well as being present in the logical separation in between separate collections in the MongoDB.
